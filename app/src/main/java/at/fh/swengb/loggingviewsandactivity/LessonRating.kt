@@ -1,4 +1,7 @@
 package at.fh.swengb.loggingviewsandactivity
 
-class LessonRating (val ratingValue: Double, feedback: String) {
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
+class LessonRating (val ratingValue: Double, val feedback: String) {
 }

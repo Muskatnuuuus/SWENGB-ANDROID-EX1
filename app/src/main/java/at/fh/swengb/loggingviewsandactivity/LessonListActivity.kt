@@ -2,12 +2,14 @@ package at.fh.swengb.loggingviewsandactivity
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.moshi.Moshi
 import kotlinx.android.synthetic.main.activity_lesson_list.*
+
 
 class LessonListActivity : AppCompatActivity() {
     companion object {
@@ -27,12 +29,44 @@ class LessonListActivity : AppCompatActivity() {
         lessonAdapter.updateList(LessonRepository.lessonsList())
         lesson_recycler_view.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
         lesson_recycler_view.adapter = lessonAdapter
+        parseJson()
+        //Thread.sleep(5000)
+        SleepyAsyncTask().execute()
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if ( resultCode == Activity.RESULT_OK && requestCode == ADD_OR_EDIT_RATING_REQUEST) {
             lessonAdapter.updateList(LessonRepository.lessonsList())
         }
+    }
+
+    fun parseJson() {
+        val moshi = Moshi.Builder().build()
+        val jsonAdapter = moshi.adapter<Lesson>(Lesson::class.java)
+
+        val json = """
+            {
+                "id": "1",
+                "name": "Lecture 0",
+                "date": "09.10.2019",
+                "topic": "Introduction",
+                "type": "LECTURE",
+                "lecturers": [
+                    {
+                        "name": "Lukas Bloder"
+                    },
+                    {
+                        "name": "Sanja Illes"
+                    }
+                ],
+                "ratings": []
+            }
+        """
+
+        val result =jsonAdapter.fromJson(json)
+        Log.e("MOSHI", result!!.name)
+
     }
 
 }
