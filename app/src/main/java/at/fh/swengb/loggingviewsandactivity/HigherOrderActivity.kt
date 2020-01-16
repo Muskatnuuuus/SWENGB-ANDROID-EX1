@@ -22,7 +22,7 @@ class HigherOrderActivity : AppCompatActivity() {
     }
 
     private fun kotlinHigherOrderWithList() {
-        val list = LessonRepository.lessonsList()
+        /*val list = LessonRepository.lessonsList()
 
 
         val heldByBloder = list.filter { Lecturer("Lukas Bloder") in it.lecturers }.map { x -> "${x.name} - ${x.topic}"}.toString()
@@ -32,7 +32,7 @@ class HigherOrderActivity : AppCompatActivity() {
         Log.e("TOPIC MAP", topicMap)
 
         val avgLecture = list.map {it.ratings.map { it.ratingValue }}.flatten().average().toString()
-        Log.e("AVERAGE LECTURES", avgLecture)
+        Log.e("AVERAGE LECTURES", avgLecture)*/
 
     }
 }

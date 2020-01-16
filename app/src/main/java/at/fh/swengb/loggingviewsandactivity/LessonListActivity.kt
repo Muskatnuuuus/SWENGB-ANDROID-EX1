@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +27,16 @@ class LessonListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lesson_list)
 
-        lessonAdapter.updateList(LessonRepository.lessonsList())
+        LessonRepository.lessonsList(
+            success = {
+                lessonAdapter.updateList(it)
+            },
+            error = {
+                Toast.makeText(this, "Error. No list found!", Toast.LENGTH_SHORT)
+            }
+        )
+
+        //lessonAdapter.updateList(LessonRepository.lessonsList())
         lesson_recycler_view.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
         lesson_recycler_view.adapter = lessonAdapter
         parseJson()
@@ -37,7 +47,14 @@ class LessonListActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if ( resultCode == Activity.RESULT_OK && requestCode == ADD_OR_EDIT_RATING_REQUEST) {
-            lessonAdapter.updateList(LessonRepository.lessonsList())
+            LessonRepository.lessonsList(
+                success = {
+                    lessonAdapter.updateList(it)
+                },
+                error = {
+                    Toast.makeText(this, "Error. No list found!", Toast.LENGTH_SHORT)
+                }
+            )
         }
     }
 
